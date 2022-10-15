@@ -1,0 +1,92 @@
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+        
+        int n=grid.size();
+        int m=grid[0].size();
+        
+        vector<vector<int>>visited(n,vector<int>(m,0));
+        
+        int time=0;
+        
+        queue<pair<pair<int,int>,int>>q;
+        
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(grid[i][j]==2)
+                {
+                    q.push({{i,j},time});
+                    visited[i][j]=1;
+                }
+            }
+        }
+        
+        
+        
+        // starting the bfs code
+        
+        while(!q.empty())
+        {
+            int row=q.front().first.first;
+            int col=q.front().first.second;
+            
+            time=q.front().second;
+            
+            q.pop();
+            
+            int delrow[]={-1,0,+1,0};
+            int delcol[]={0,+1,0,-1};
+            
+            for(int i=0;i<4;i++)
+            {
+                
+                int newrow=row+delrow[i];
+                int newcol=col+delcol[i];
+                
+                if(newrow<0 or newrow>=n or newcol<0 or newcol>=m)
+                {
+                    continue;
+                }
+                
+                if(grid[newrow][newcol]==2)
+                {
+                    continue;
+                }
+                
+                if(grid[newrow][newcol]==1 and visited[newrow][newcol]==0)
+                {
+                    
+                    visited[newrow][newcol]=1;
+                    grid[newrow][newcol]=2;
+                    
+                    q.push({{newrow,newcol},time+1});
+                    
+                }
+                
+                
+                
+            }
+            
+            
+        
+        }
+        
+        
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(grid[i][j]==1)
+                {
+                    return -1;
+                }
+            }
+        }
+        
+        
+        return time;
+        
+    }
+};
