@@ -50,10 +50,7 @@ public:
                     continue;
                 }
                 
-                if(grid[newrow][newcol]==2)
-                {
-                    continue;
-                }
+                
                 
                 if(grid[newrow][newcol]==1 and visited[newrow][newcol]==0)
                 {
