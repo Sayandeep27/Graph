@@ -1,0 +1,67 @@
+
+  bool dfscheck(int node,vector<int>adj[],int visited[],int pathvisited[],int check[])
+  {
+      visited[node]=1;
+      pathvisited[node]=1;
+      check[node]=0;
+      
+      for(auto it:adj[node])
+      {
+          if(visited[it]==0)
+          {
+              if(dfscheck(it,adj,visited,pathvisited,check)==true)
+              {
+                  check[node]=0;
+                  return true;
+              }
+          }
+          else if(pathvisited[it])
+          {
+              check[node]=0;
+              return true;
+          }
+      }
+      
+      
+      check[node]=1;
+      pathvisited[node]=0;
+      return false;
+      
+  }
+  
+  
+    vector<int> eventualSafeNodes(int V, vector<int> adj[]) {
+        // code here
+        
+        int n=V;
+        
+        int visited[n]={0};
+        int pathvisited[n]={0};
+        int check[n]={0};
+        
+        vector<int>ans;
+        
+        for(int i=0;i<n;i++)
+        {
+            if(visited[i]==0)
+            {
+                dfscheck(i,adj,visited,pathvisited,check);
+            }
+        }
+        
+        
+        
+        for(int i=0;i<n;i++)
+        {
+            if(check[i]==1)
+            {
+                ans.push_back(i);
+            }
+        }
+        
+        return ans;
+        
+    }
+};
+
+
