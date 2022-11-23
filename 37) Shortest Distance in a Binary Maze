@@ -1,0 +1,66 @@
+int shortestPath(vector<vector<int>> &grid, pair<int, int> source,
+                     pair<int, int> dest) {
+        // code here
+        
+        queue<pair<int,pair<int,int>>>q;
+        
+        int n=grid.size();
+        int m=grid[0].size();
+        
+        vector<vector<int>>dist(n,vector<int>(m,1e9));
+        
+        dist[source.first][source.second]=0;
+        
+        q.push({0,{source.first,source.second}});
+        
+        
+        
+        if(source.first==dest.first and source.second==dest.second)
+        {
+            return 0;
+        }
+        
+        
+        
+        int delrow[]={-1,0,+1,0};
+        int delcol[]={0,+1,0,-1};
+        
+        while(!q.empty())
+        {
+            int d=q.front().first;
+            int row=q.front().second.first;
+            int col=q.front().second.second;
+            
+            q.pop();
+            
+            
+            for(int i=0;i<4;i++)
+            {
+                int newrow=row+delrow[i];
+                int newcol=col+delcol[i];
+                
+                if(newrow>=0 and newrow<n and newcol>=0 and newcol<m and grid[newrow][newcol]==1 and d+1<dist[newrow][newcol])
+                {
+                    dist[newrow][newcol]=d+1;
+                    
+                    if(newrow==dest.first and newcol==dest.second)
+                    {
+                        return d+1;
+                    }
+                    
+                    q.push({1+d,{newrow,newcol}});
+                    
+                    
+                    
+                }
+            }
+            
+            
+            
+            
+        }
+        
+        
+        return -1;
+        
+    }
