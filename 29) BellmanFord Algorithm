@@ -1,3 +1,10 @@
+
+Time Complexity: O(V*E), where V = no. of vertices and E = no. of Edges.
+
+Space Complexity: O(V) for the distance array which stores the minimized distances.
+
+
+
 vector<int> bellman_ford(int V, vector<vector<int>>& edges, int S) {
         // Code here
         int n=V;
