@@ -33,15 +33,15 @@ public:
                 if(edgeweight + d < dist[adjnode]){
                     dist[adjnode] = edgeweight +d;
                     pq.push({dist[adjnode], adjnode});
-                    ways[adjnode] = ways[node];
+                    ways[adjnode] = ways[node]%mod;
                 }
                 else if(d + edgeweight == dist[adjnode]){
-                    ways[adjnode] = (ways[adjnode] + ways[node]) % mod;
+                    ways[adjnode] = (ways[adjnode] + ways[node])%mod;
                 }
             }
         }
 
-        return ways[n-1]%mod;
+        return ways[n-1];
 
 
     }
