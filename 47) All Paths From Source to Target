@@ -1,0 +1,61 @@
+class Solution {
+public:
+    
+    vector<vector<int>>ans;
+
+    void dfs(int node,int dest,vector<int>adj[],vector<int>&path)
+    {
+       
+       path.push_back(node);
+
+       if(node==dest)
+       {
+           ans.push_back(path);
+       }
+       else
+       {
+          for(auto it:adj[node])
+          {
+              dfs(it,dest,adj,path);
+          }
+
+       }
+   
+     
+     path.pop_back();
+
+
+    }
+
+
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
+        
+      int n=graph.size();
+
+      // creating adj list
+
+      vector<int>adj[n+1];
+
+      for(int i=0;i<graph.size();i++)
+      {
+          for(int j=0;j<graph[i].size();j++)
+          {
+              adj[i].push_back(graph[i][j]);
+          }
+      }
+
+
+       int src=0;
+       int dest=n-1; 
+
+       
+
+       vector<int>path;  
+
+       dfs(src,dest,adj,path); 
+
+
+       return ans;
+
+    }
+};
