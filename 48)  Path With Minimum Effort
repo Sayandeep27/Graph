@@ -1,56 +1,56 @@
+typedef pair<int,pair<int,int>>pi;
+
 class Solution {
 public:
     int minimumEffortPath(vector<vector<int>>& heights) {
-        int n=heights.size();
-        int m=heights[0].size();
+          
+          int n=heights.size();
+          int m=heights[0].size();
 
-         priority_queue<pair<int, pair<int, int>>,
-                       vector<pair<int, pair<int, int>>>,
-                       greater<pair<int, pair<int, int>>>>
-            q;
+          vector<vector<int>>effort(n,vector<int>(m,1e9));
 
-       vector<vector<int>>dist(n,vector<int>(m,INT_MAX));
+          effort[0][0]=0;
 
-       dist[0][0]=0;
+          priority_queue<pi,vector<pi>,greater<pi>>pq;
 
-       q.push({0,{0,0}}); // {diff,{row,col}}
+          pq.push({0,{0,0}}); // {effort,{row,col}}
 
-       while(!q.empty())
-       {
-           int diff=q.top().first;
-           int row=q.top().second.first;
-           int col=q.top().second.second;
+          int delrow[]={-1,0,+1,0};
+          int delcol[]={0,+1,0,-1};
 
-           q.pop();
+          while(!pq.empty())
+          {
+              int x=pq.top().first;
+              int row=pq.top().second.first;
+              int col=pq.top().second.second;
 
-           if(row==n-1 and col==m-1) return diff;
+              pq.pop();
+              
+              if(row==n-1 and col==m-1) return x;
 
+              for(int i=0;i<4;i++)
+              {
+                  int newrow=row+delrow[i];
+                  int newcol=col+delcol[i];
 
-           int delrow[]={-1,0,+1,0};
-           int delcol[]={0,+1,0,-1};
+                  if(newrow<0 or newcol<0 or newrow>=n or newcol>=m) continue;
 
-           for(int i=0;i<4;i++)
-           {
-               int newrow=row+delrow[i];
-               int newcol=col+delcol[i];
+                  int diff=abs(heights[row][col]-heights[newrow][newcol]);
 
-               if(newrow>=0 and newrow<n and newcol>=0 and newcol<m)
-               {
-                   int new_effort=max(abs(heights[row][col]-heights[newrow][newcol]),diff);
+                  int new_effort=max(diff,x);
 
-                   if(new_effort<dist[newrow][newcol])
-                   {
-                       dist[newrow][newcol]=new_effort;
+                  if(new_effort<effort[newrow][newcol])
+                  {
+                      effort[newrow][newcol]=new_effort;
 
-                       q.push({new_effort,{newrow,newcol}});
-                   }
-               }
-           }
+                      pq.push({effort[newrow][newcol],{newrow,newcol}});
+                  }
+              }
 
-       }
+          }
 
-       return 0;
-
+          return 0;
+          
 
     }
 };
