@@ -1,0 +1,68 @@
+class Solution {
+public:
+
+    bool static cmp(pair<int,int>a,pair<int,int>b)
+    {
+        if(a.first==b.first) return a.second<b.second;
+
+        return a.first>b.first;
+    }
+
+    long long maximumImportance(int n, vector<vector<int>>& roads) {
+             
+            vector<int>adj[n+1];
+
+            vector<int>degree(n,0);
+
+            for(auto it:roads)
+            {
+                int u=it[0];
+                int v=it[1];
+
+                adj[u].push_back(v);
+                adj[v].push_back(u);
+
+                degree[u]++;
+                degree[v]++;
+            }
+
+
+            vector<int>values(n,0);
+
+            vector<pair<int,int>>v;
+
+            for(int i=0;i<n;i++)
+            {
+                v.push_back({degree[i],i});
+            }
+
+
+            sort(v.begin(),v.end(),cmp);
+
+            int x=n;
+
+            for(int i=0;i<n;i++)
+            {
+                values[v[i].second]=x;
+                x--;
+            }
+            
+            long long ans=0;
+
+            for(auto it:roads)
+            {
+                int a=it[0];
+                int b=it[1];
+
+                ans+=(values[a]+values[b]);
+            }
+
+
+            return ans;
+
+
+           
+
+
+    }
+};
