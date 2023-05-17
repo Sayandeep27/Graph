@@ -1,3 +1,5 @@
+Time Complexity: O(V + 2E), Where V = Vertices, 2E is for total degrees as we traverse all adjacent nodes.
+
 #include<bits/stdc++.h>
 using namespace std;
 
