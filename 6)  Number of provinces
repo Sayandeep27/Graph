@@ -1,3 +1,10 @@
+Time Complexity: O(N) + O(V+2E), Where O(N) is for outer loop and inner loop runs in total a single DFS over entire graph, and we know DFS takes a time of O(V+2E). 
+
+Space Complexity: O(N) + O(N),Space for recursion stack space and visited array.
+
+
+
+
 class Solution {
 public:
     void dfs(int node,vector<int>&visited,vector<int>adj[])
