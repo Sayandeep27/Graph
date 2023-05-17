@@ -1,3 +1,5 @@
+Time Complexity: O(NxM + NxMx4) ~ O(N x M), For the worst case, all of the cells will have fresh oranges, so the BFS function will be called for (N x M) nodes and for every node, we are traversing for 4 neighbours, it will take O(N x M x 4) time.
+
 class Solution {
 public:
     int orangesRotting(vector<vector<int>>& grid) {
