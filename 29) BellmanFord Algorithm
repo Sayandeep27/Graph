@@ -1,55 +1,42 @@
-
-Time Complexity: O(V*E), where V = no. of vertices and E = no. of Edges.
-
-Space Complexity: O(V) for the distance array which stores the minimized distances.
-
-
-
-vector<int> bellman_ford(int V, vector<vector<int>>& edges, int S) {
-        // Code here
-        int n=V;
-        
-        vector<int>dist(n,1e8);
-        
-        dist[S]=0;
-        
-        // relaxation n-1 times
-        
-        for(int i=0;i<n-1;i++)
-        {
-            for(auto it:edges)
-            {
-                int u=it[0];
-                int v=it[1];
-                int wt=it[2];
-                
-                if(dist[u]!=1e8 and dist[u]+wt<dist[v])
-                {
-                    dist[v]=dist[u]+wt;
-                }
-                
-            }
-            
-        
-        }
-        
-        
-        // nth relaxation to check negative cycle
-        
-        for(auto it:edges)
-        {
-            int u=it[0];
-            int v=it[1];
-            int wt=it[2];
-            
-            if(dist[u]!=1e8 and dist[u]+wt<dist[v])  // if it contains a negative cycle
-            {
-                return {-1};
-            }
-        }
-        
-        
-        
-        return dist;
-        
+ 
+    vector<int> bellman_ford(int n, vector<vector<int>>& edges, int s) {
+         
+         vector<int>dist(n,1e8);
+         
+         dist[s]=0;
+         
+         // n-1 times relaxation
+         
+         for(int i=0;i<n-1;i++)
+         {
+             for(auto it:edges)
+             {
+                 int u=it[0];
+                 int v=it[1];
+                 int wt=it[2];
+                 
+                 if(dist[u]+wt<dist[v])
+                 {
+                     dist[v]=wt+dist[u];
+                 }
+             }
+         }
+         
+         
+         // last relaxation
+         
+         for(auto it:edges)
+         {
+             int u=it[0];
+             int v=it[1];
+             int wt=it[2];
+             
+             if(dist[u]+wt<dist[v])
+             {
+                 return {-1};
+             }
+         }
+         
+         
+         return dist;
     }
