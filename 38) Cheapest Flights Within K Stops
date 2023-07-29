@@ -1,56 +1,58 @@
+
+#define pi pair<int,pair<int,int>>
 class Solution {
 public:
-    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) {
+    int findCheapestPrice(int n, vector<vector<int>>& flights, int src, int dst, int k) { 
+       
+       vector<pair<int,int>>adj[n+1];
 
-           vector<pair<int,int>>adj[n+1];
-          
-           for(int i=0;i<flights.size();i++)
+       for(auto it:flights)
+       {
+           int u=it[0];
+           int v=it[1];
+           int price=it[2];
+
+           adj[u].push_back({v,price});
+       }
+
+       vector<int>cost(n,1e9);
+       cost[src]=0;
+
+       priority_queue<pi,vector<pi>,greater<pi>>pq;
+
+       pq.push({0,{src,0}});   //{stops,{node,dist}}
+       
+
+       while(!pq.empty())
+       {
+           int stops=pq.top().first;
+           int node=pq.top().second.first;
+           int price=pq.top().second.second;
+
+           pq.pop();
+
+           if(stops>k) continue;
+
+
+           for(auto it:adj[node])
            {
-               for(int j=0;j<flights[i].size();j++)
+               int adjnode=it.first;
+               int edgeweight=it.second;
+
+               if(price+edgeweight<cost[adjnode] and stops<=k)
                {
-                    adj[flights[i][0]].push_back({flights[i][1],flights[i][2]});
+                   cost[adjnode]=price+edgeweight;
+                   pq.push({stops+1,{adjnode,cost[adjnode]}});
                }
-           }    
-
-          vector<int>dist(n+1,INT_MAX);
-
-          dist[src]=0;
-
-          queue<pair<int,pair<int,int>>>pq;
-
-          pq.push({0,{src,0}});  // {stops,{node,price}}
-
-          while(!pq.empty())
-          {
-              int stops=pq.front().first;
-              int node=pq.front().second.first;
-              int price=pq.front().second.second;
-
-              pq.pop();
-
-              if(stops>k) continue;
-
-              for(auto it:adj[node])
-              {
-                  int adjnode=it.first;
-                  int edgeweight=it.second;
-
-                  if(price+edgeweight<dist[adjnode] and stops<=k)
-                  {
-                      dist[adjnode]=price+edgeweight;
-
-                      pq.push({stops+1,{adjnode,dist[adjnode]}});
-                  }
-              }
+           }
+       }
 
 
-          }
 
+        if(cost[dst]==1e9) return -1;
 
-          if(dist[dst]==INT_MAX) return -1;
+        return cost[dst];
 
-          return dist[dst];
-
-
+        
     }
 };
