@@ -1,0 +1,56 @@
+
+class Solution
+{
+public:
+    
+ pair<int,int> solve(int node,vector<pair<int,int>> adj[],int di)
+ {
+        
+        for(auto it:adj[node])
+        {
+            di=min(di,it.second);
+            return solve(it.first,adj,di);
+        } 
+        
+        return {node,di};
+        
+    }
+    
+vector<vector<int>> solve(int n,int p,vector<int> a,vector<int> b,vector<int> d)
+{
+        vector<pair<int,int>> adj[n+1];
+        vector<int> indegree(n+1,0);
+        vector<int> outdegree(n+1,0);
+         
+        for(int i=0;i<p;i++)
+        {
+            adj[a[i]].push_back({b[i],d[i]});
+            
+            indegree[b[i]]++;
+            outdegree[a[i]]++;
+        }
+        
+        
+        vector<vector<int>> ans;
+        
+        for(int i=1;i<=n;i++)
+        {
+
+            if(indegree[i]==0 && outdegree[i]>0)
+            {
+                int end=solve(i,adj,INT_MAX).first;
+                int diameter=solve(i,adj,INT_MAX).second;
+                
+                ans.push_back({i,end,diameter});
+            }
+            
+        }
+        return ans;
+        
+        
+    
+    
+    
+    
+    }
+};
