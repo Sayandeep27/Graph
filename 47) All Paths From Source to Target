@@ -3,59 +3,50 @@ public:
     
     vector<vector<int>>ans;
 
-    void dfs(int node,int dest,vector<int>adj[],vector<int>&path)
+    vector<int>path;
+
+
+    void dfs(int node,int dest,vector<int>adj[])
     {
-       
-       path.push_back(node);
+        path.push_back(node);
 
-       if(node==dest)
-       {
-           ans.push_back(path);
-       }
-       else
-       {
-          for(auto it:adj[node])
-          {
-              dfs(it,dest,adj,path);
-          }
+        if(node==dest)
+        {
+            ans.push_back(path);
+            
+        }
+        else
+        {
+            for(auto it:adj[node])
+            {
+                dfs(it,dest,adj);
+            }
+        }
 
-       }
-   
-     
-     path.pop_back();
+        
 
-
+        path.pop_back();
     }
-
 
     vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
         
-      int n=graph.size();
+        int n=graph.size();
+        vector<int>adj[n];
 
-      // creating adj list
-
-      vector<int>adj[n+1];
-
-      for(int i=0;i<graph.size();i++)
-      {
-          for(int j=0;j<graph[i].size();j++)
-          {
-              adj[i].push_back(graph[i][j]);
-          }
-      }
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<graph[i].size();j++)
+            {
+                adj[i].push_back(graph[i][j]);
+            }
+        }
 
 
-       int src=0;
-       int dest=n-1; 
+        int src=0;
+        int dest=n-1;
 
-       
-
-       vector<int>path;  
-
-       dfs(src,dest,adj,path); 
-
-
-       return ans;
-
+        dfs(src,dest,adj);
+        
+        return ans;
     }
 };
